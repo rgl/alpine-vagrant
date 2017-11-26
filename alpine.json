@@ -1,0 +1,108 @@
+{
+  "variables": {
+    "disk_size": "20480",
+    "version": "3.6",
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.6/releases/x86_64/alpine-standard-3.6.2-x86_64.iso",
+    "iso_checksum": "ddf8b91cc0d2b1c110f26607d410e5c951eedff9c60d6eb05d220b87c1970840",
+    "iso_checksum_type": "sha256"
+  },
+  "builders": [
+    {
+      "name": "alpine-{{user `version`}}-amd64-libvirt",
+      "type": "qemu",
+      "accelerator": "kvm",
+      "qemuargs": [
+        ["-m", "2048"],
+        ["-smp", "2"]
+      ],
+      "headless": true,
+      "http_directory": ".",
+      "format": "qcow2",
+      "disk_size": "{{user `disk_size`}}",
+      "disk_interface": "virtio",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "wget -qO answers http://{{.HTTPIP}}:{{.HTTPPort}}/answers-libvirt.tmp<enter><wait>",
+        "setup-alpine -f answers<enter><wait5>",
+        "vagrant<enter>",
+        "vagrant<enter>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "mount /dev/vda3 /mnt<enter>",
+        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
+        "reboot<enter>"
+      ],
+      "shutdown_command": "poweroff"
+    },
+    {
+      "name": "alpine-{{user `version`}}-amd64-virtualbox",
+      "type": "virtualbox-iso",
+      "guest_os_type": "Linux26_64",
+      "guest_additions_mode": "attach",
+      "headless": true,
+      "http_directory": ".",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "2048"],
+        ["modifyvm", "{{.Name}}", "--cpus", "2"],
+        ["modifyvm", "{{.Name}}", "--vram", "32"],
+        ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
+        ["modifyvm", "{{.Name}}", "--nictype2", "virtio"],
+        ["modifyvm", "{{.Name}}", "--nictype3", "virtio"],
+        ["modifyvm", "{{.Name}}", "--nictype4", "virtio"]
+      ],
+      "disk_size": "{{user `disk_size`}}",
+      "hard_drive_interface": "sata",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
+        "setup-alpine -f answers<enter><wait5>",
+        "vagrant<enter>",
+        "vagrant<enter>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "mount /dev/sda3 /mnt<enter>",
+        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
+        "reboot<enter>"
+      ],
+      "shutdown_command": "poweroff"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "sh {{.Path}}",
+      "scripts": ["provision.sh"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "{{.BuildName}}.box",
+      "vagrantfile_template": "Vagrantfile.template"
+    }
+  ]
+}
