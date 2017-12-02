@@ -1,6 +1,6 @@
 This builds an up-to-date Vagrant Alpine Linux Base Box.
 
-Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.6.
+Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.7.
 
 
 # Usage
@@ -85,7 +85,7 @@ The following table describes the steps used to install Alpine Linux.
 | login as root                          | `root<enter>`                                                                   |
 | bring up the network                   | `ifconfig eth0 up && udhcpc -i eth0<enter><wait5>`                              |
 | download the setup answers             | `wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>`                 |
-| run the setup                          | `setup-alpine -f answers<enter><wait5>`                                         |
+| run the setup                          | `setup-alpine -f $PWD/answers<enter><wait5>`                                    |
 | type the root password                 | `vagrant<enter>`                                                                |
 | re-type the root password              | `vagrant<enter>`                                                                |
 | wait for the services to start         | `<wait10><wait10><wait10>`                                                      |

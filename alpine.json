@@ -1,9 +1,9 @@
 {
   "variables": {
     "disk_size": "20480",
-    "version": "3.6",
-    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.6/releases/x86_64/alpine-standard-3.6.2-x86_64.iso",
-    "iso_checksum": "ddf8b91cc0d2b1c110f26607d410e5c951eedff9c60d6eb05d220b87c1970840",
+    "version": "3.7",
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/alpine-standard-3.7.0-x86_64.iso",
+    "iso_checksum": "d0fb4b6ef56af0651e2cf398c201deb8e957907cb99421b1a6ade4d8d981b81a",
     "iso_checksum_type": "sha256"
   },
   "builders": [
@@ -75,7 +75,7 @@
         "root<enter>",
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
         "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
-        "setup-alpine -f answers<enter><wait5>",
+        "setup-alpine -f $PWD/answers<enter><wait5>",
         "vagrant<enter>",
         "vagrant<enter>",
         "<wait10><wait10><wait10>",
