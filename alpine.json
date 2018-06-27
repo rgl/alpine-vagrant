@@ -1,9 +1,9 @@
 {
   "variables": {
     "disk_size": "20480",
-    "version": "3.7",
-    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/alpine-standard-3.7.0-x86_64.iso",
-    "iso_checksum": "d0fb4b6ef56af0651e2cf398c201deb8e957907cb99421b1a6ade4d8d981b81a",
+    "version": "3.8",
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-standard-3.8.0-x86_64.iso",
+    "iso_checksum": "9da0f7c2dd8ea55a542b19150012f3fa4e94724eb67cb3777b8027a872e3cc30",
     "iso_checksum_type": "sha256"
   },
   "builders": [
@@ -40,7 +40,7 @@
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
-        "mount /dev/vda3 /mnt<enter>",
+        "mount /dev/vda2 /mnt<enter>",
         "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
         "reboot<enter>"
       ],
@@ -84,7 +84,7 @@
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
-        "mount /dev/sda3 /mnt<enter>",
+        "mount /dev/sda2 /mnt<enter>",
         "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
         "reboot<enter>"
       ],

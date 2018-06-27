@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-  config.vm.box = 'alpine-3.7-amd64'
+  config.vm.box = 'alpine-3.8-amd64'
 
   config.vm.hostname = 'example'
 
@@ -13,11 +13,12 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider 'virtualbox' do |vb|
     vb.linked_clone = true
-    vb.memory = 2048
+    vb.memory = 2*2048
     vb.cpus = 2
   end
 
   config.vm.provision 'shell', inline: 'uname -a'
+  config.vm.provision 'shell', inline: 'cat /etc/alpine-release'
   config.vm.provision 'shell', inline: 'cat /etc/os-release'
   config.vm.provision 'shell', inline: 'apk add util-linux; lsblk -x KNAME -o KNAME,SIZE,TRAN,SUBSYSTEMS,FSTYPE,UUID,LABEL,MODEL,SERIAL'
   config.vm.provision 'shell', inline: 'df -h'

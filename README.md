@@ -1,6 +1,6 @@
 This builds an up-to-date Vagrant Alpine Linux Base Box.
 
-Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.7.
+Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.8.
 
 
 # Usage
