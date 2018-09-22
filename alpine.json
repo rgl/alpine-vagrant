@@ -2,8 +2,8 @@
   "variables": {
     "disk_size": "20480",
     "version": "3.8",
-    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-standard-3.8.0-x86_64.iso",
-    "iso_checksum": "9da0f7c2dd8ea55a542b19150012f3fa4e94724eb67cb3777b8027a872e3cc30",
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-standard-3.8.1-x86_64.iso",
+    "iso_checksum": "70d231a2dc1366d0a69810b3ea8d4d52a6c23503c4db6db1d2dc9815e2bc90e4",
     "iso_checksum_type": "sha256"
   },
   "builders": [
