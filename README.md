@@ -40,6 +40,7 @@ Install qemu-kvm:
 ```bash
 apt-get install -y qemu-kvm
 apt-get install -y sysfsutils
+apt-get install -y rng-tools
 systool -m kvm_intel -v
 ```
 
