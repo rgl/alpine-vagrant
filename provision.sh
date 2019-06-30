@@ -4,7 +4,11 @@ set -eu
 # echo all the executed commands.
 set -x
 
+echo -e "http://dl-cdn.alpinelinux.org/alpine/v3.10/main\n" >> /etc/apk/repositories
+echo -e "http://dl-cdn.alpinelinux.org/alpine/v3.10/community\n" >> /etc/apk/repositories
+
 # upgrade all packages.
+apk update
 apk upgrade -U --available
 
 # add the vagrant user and let it use root permissions without sudo asking for a password.
@@ -27,7 +31,7 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 # install the Guest Additions.
 if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
 # install the VirtualBox Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.10/community >>/etc/apk/repositories
+
 apk add -U virtualbox-guest-additions virtualbox-guest-modules-vanilla
 rc-update add virtualbox-guest-additions
 echo vboxsf >>/etc/modules
@@ -46,6 +50,9 @@ fi
 
 # install the nfs client to support nfs synced folders in vagrant.
 apk add nfs-utils
+
+# install DHCP client to aid in connectivity
+apk add dhclient
 
 # disable the DNS reverse lookup on the SSH server. this stops it from
 # trying to resolve the client IP address into a DNS domain name, which
