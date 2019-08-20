@@ -61,7 +61,7 @@ vagrant destroy -f
 
 ## VirtualBox usage
 
-Install [VirtuaBox](https://www.virtualbox.org/).
+Install [VirtualBox](https://www.virtualbox.org/).
 
 Type `make build-virtualbox` and follow the instructions.
 
