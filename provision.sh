@@ -34,7 +34,8 @@ echo vboxsf >>/etc/modules
 modinfo vboxguest
 else
 # install the qemu-kvm Guest Additions.
-apk add qemu-guest-agent
+echo http://mirrors.dotsrc.org/alpine/v3.11/community >>/etc/apk/repositories
+apk add -U qemu-guest-agent
 rc-update add qemu-guest-agent
 # configure the GA_PATH, as, for some reason, its at /dev/vport0p1 instead of
 # the expected /dev/virtio-ports/org.qemu.guest_agent.0.
@@ -62,4 +63,12 @@ set completion-ignore-case on
 EOF
 
 # zero the free disk space -- for better compression of the box file.
-dd if=/dev/zero of=/EMPTY bs=1M || true && sync && rm -f /EMPTY && sync
+# NB prefer discard/trim (safer; faster) over creating a big zero filled file
+#    (somewhat unsafe as it has to fill the entire disk, which might trigger
+#    a disk (near) full alarm; slower; slightly better compression).
+apk add util-linux
+if [ "$(lsblk -no DISC-GRAN $(findmnt -no SOURCE /) | awk '{print $1}')" != '0B' ]; then
+    fstrim -v /
+else
+    dd if=/dev/zero of=/EMPTY bs=1M || true && sync && rm -f /EMPTY && sync
+fi

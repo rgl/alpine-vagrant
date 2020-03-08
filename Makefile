@@ -7,15 +7,12 @@ build-libvirt: alpine-${VERSION}-amd64-libvirt.box
 
 build-virtualbox: alpine-${VERSION}-amd64-virtualbox.box
 
-alpine-${VERSION}-amd64-libvirt.box: answers-libvirt.tmp provision.sh alpine.json Vagrantfile.template
+alpine-${VERSION}-amd64-libvirt.box: answers provision.sh alpine.json Vagrantfile.template
 	rm -f alpine-${VERSION}-amd64-libvirt.box
 	PACKER_KEY_INTERVAL=10ms packer build -only=alpine-${VERSION}-amd64-libvirt -on-error=abort alpine.json
 	@echo BOX successfully built!
 	@echo to add to local vagrant install do:
 	@echo vagrant box add -f alpine-${VERSION}-amd64 alpine-${VERSION}-amd64-libvirt.box
-
-answers-libvirt.tmp: answers
-	sed 's,/dev/sda,/dev/vda,g' $< >$@
 
 alpine-${VERSION}-amd64-virtualbox.box: answers provision.sh alpine.json Vagrantfile.template
 	rm -f alpine-${VERSION}-amd64-virtualbox.box
