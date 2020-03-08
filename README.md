@@ -1,17 +1,11 @@
 This builds an up-to-date Vagrant Alpine Linux Base Box.
 
-Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.10.
+Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.11.
 
 
 # Usage
 
-Install [Packer](https://www.packer.io/), [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
-
-Install the [vagrant-alpine](https://github.com/maier/vagrant-alpine) vagrant plugin:
-
-```bash
-vagrant plugin install vagrant-alpine
-```
+Install [Packer (1.5+)](https://www.packer.io/), [Vagrant (2.2.6+)](https://www.vagrantup.com/) and [VirtualBox (6.1+)](https://www.virtualbox.org/).
 
 If you are on a Debian/Ubuntu host, you should also install and configure the NFS server. E.g.:
 
