@@ -27,14 +27,14 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 # install the Guest Additions.
 if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
 # install the VirtualBox Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.11/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.12/community >>/etc/apk/repositories
 apk add -U virtualbox-guest-additions virtualbox-guest-modules-lts
 rc-update add virtualbox-guest-additions
 echo vboxsf >>/etc/modules
 modinfo vboxguest
 else
 # install the qemu-kvm Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.11/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.12/community >>/etc/apk/repositories
 apk add -U qemu-guest-agent
 rc-update add qemu-guest-agent
 # configure the GA_PATH, as, for some reason, its at /dev/vport0p1 instead of
