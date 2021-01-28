@@ -1,36 +1,10 @@
 {
-  "variables": {
-    "disk_size": "20480",
-    "version": "3.12",
-    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86_64/alpine-standard-3.12.0-x86_64.iso",
-    "iso_checksum": "746a7af837fcb3451b7587e881d6706269cf4f300f7cf37964e200e50a52c93c",
-    "iso_checksum_type": "sha256"
-  },
   "builders": [
     {
-      "name": "alpine-{{user `version`}}-amd64-libvirt",
-      "type": "qemu",
       "accelerator": "kvm",
-      "qemuargs": [
-        ["-m", "2048"],
-        ["-smp", "2"]
-      ],
-      "headless": true,
-      "http_directory": ".",
-      "format": "qcow2",
-      "disk_size": "{{user `disk_size`}}",
-      "disk_interface": "virtio-scsi",
-      "disk_discard": "unmap",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "ssh_username": "root",
-      "ssh_password": "vagrant",
-      "ssh_wait_timeout": "60m",
-      "boot_wait": "30s",
       "boot_command": [
         "root<enter>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "ifconfig eth0 up \u0026\u0026 udhcpc -i eth0<enter><wait5>",
         "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
         "setup-alpine -f answers<enter><wait5>",
         "vagrant<enter>",
@@ -45,37 +19,36 @@
         "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
         "reboot<enter>"
       ],
-      "shutdown_command": "poweroff"
-    },
-    {
-      "name": "alpine-{{user `version`}}-amd64-virtualbox",
-      "type": "virtualbox-iso",
-      "guest_os_type": "Linux26_64",
-      "guest_additions_mode": "attach",
+      "boot_wait": "30s",
+      "disk_discard": "unmap",
+      "disk_interface": "virtio-scsi",
+      "disk_size": "{{user `disk_size`}}",
+      "format": "qcow2",
       "headless": true,
       "http_directory": ".",
-      "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "2048"],
-        ["modifyvm", "{{.Name}}", "--cpus", "2"],
-        ["modifyvm", "{{.Name}}", "--vram", "32"],
-        ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype2", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype3", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype4", "virtio"]
-      ],
-      "disk_size": "{{user `disk_size`}}",
-      "hard_drive_interface": "sata",
-      "hard_drive_discard": true,
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_url`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "ssh_username": "root",
+      "name": "alpine-{{user `version`}}-amd64-libvirt",
+      "qemuargs": [
+        [
+          "-m",
+          "2048"
+        ],
+        [
+          "-smp",
+          "2"
+        ]
+      ],
+      "shutdown_command": "poweroff",
       "ssh_password": "vagrant",
-      "ssh_wait_timeout": "60m",
-      "boot_wait": "30s",
+      "ssh_timeout": "60m",
+      "ssh_username": "root",
+      "type": "qemu"
+    },
+    {
       "boot_command": [
         "root<enter>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "ifconfig eth0 up \u0026\u0026 udhcpc -i eth0<enter><wait5>",
         "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
         "setup-alpine -f $PWD/answers<enter><wait5>",
         "vagrant<enter>",
@@ -90,21 +63,90 @@
         "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
         "reboot<enter>"
       ],
-      "shutdown_command": "poweroff"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "sh {{.Path}}",
-      "scripts": ["provision.sh"]
+      "boot_wait": "30s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_additions_mode": "attach",
+      "guest_os_type": "Linux26_64",
+      "hard_drive_discard": true,
+      "hard_drive_interface": "sata",
+      "headless": true,
+      "http_directory": ".",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "name": "alpine-{{user `version`}}-amd64-virtualbox",
+      "shutdown_command": "poweroff",
+      "ssh_password": "vagrant",
+      "ssh_timeout": "60m",
+      "ssh_username": "root",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "32"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nictype1",
+          "virtio"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nictype2",
+          "virtio"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nictype3",
+          "virtio"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--nictype4",
+          "virtio"
+        ]
+      ]
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant",
       "output": "{{.BuildName}}.box",
+      "type": "vagrant",
       "vagrantfile_template": "Vagrantfile.template"
     }
-  ]
+  ],
+  "provisioners": [
+    {
+      "execute_command": "sh {{.Path}}",
+      "scripts": [
+        "provision.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "disk_size": "20480",
+    "iso_checksum": "c197f9cf095178d5ae978a47597a4004c16c879d2047b9906f91642cb01c2ef9",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-standard-3.13.0-x86_64.iso",
+    "version": "3.13"
+  }
 }
+
