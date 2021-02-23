@@ -143,10 +143,10 @@
   ],
   "variables": {
     "disk_size": "20480",
-    "iso_checksum": "c197f9cf095178d5ae978a47597a4004c16c879d2047b9906f91642cb01c2ef9",
+    "iso_checksum": "4b86ecf703464c47e53655d1969b74d5d2f2f8ed4b77002fa7c510d7b8bdc554",
     "iso_checksum_type": "sha256",
-    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-standard-3.13.0-x86_64.iso",
-    "version": "3.13"
+    "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-standard-3.13.2-x86_64.iso",
+    "version": "3.13.2"
   }
 }
 
