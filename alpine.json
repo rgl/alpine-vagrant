@@ -3,8 +3,7 @@
     "disk_size": "20480",
     "version": "3.12",
     "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86_64/alpine-standard-3.12.0-x86_64.iso",
-    "iso_checksum": "746a7af837fcb3451b7587e881d6706269cf4f300f7cf37964e200e50a52c93c",
-    "iso_checksum_type": "sha256"
+    "iso_checksum": "sha256:746a7af837fcb3451b7587e881d6706269cf4f300f7cf37964e200e50a52c93c"
   },
   "builders": [
     {
@@ -23,7 +22,6 @@
       "disk_discard": "unmap",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",
@@ -68,7 +66,6 @@
       "hard_drive_discard": true,
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",

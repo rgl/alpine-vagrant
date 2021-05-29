@@ -5,7 +5,7 @@ Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.12.
 
 # Usage
 
-Install [Packer (1.5+)](https://www.packer.io/), [Vagrant (2.2.6+)](https://www.vagrantup.com/) and [VirtualBox (6.1+)](https://www.virtualbox.org/).
+Install [Packer (1.7+)](https://www.packer.io/), [Vagrant (2.2.16+)](https://www.vagrantup.com/) and [VirtualBox (6.1+)](https://www.virtualbox.org/).
 
 If you are on a Debian/Ubuntu host, you should also install and configure the NFS server. E.g.:
 
