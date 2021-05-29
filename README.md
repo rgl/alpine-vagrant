@@ -83,9 +83,9 @@ The following table describes the steps used to install Alpine Linux.
 | run the setup                          | `setup-alpine -f $PWD/answers<enter><wait5>`                                    |
 | type the root password                 | `vagrant<enter>`                                                                |
 | re-type the root password              | `vagrant<enter>`                                                                |
-| wait for the services to start         | `<wait10><wait10><wait10>`                                                      |
+| wait for the services to start         | `<wait30s>`                                                                     |
 | confirm that we want to erase sda      | `y<enter>`                                                                      |
-| wait 1m for the installation to finish | `<wait10><wait10><wait10><wait10><wait10><wait10>`                              |
+| wait for the installation to finish    | `<wait4m>`                                                                      |
 | mount the root partition               | `mount /dev/sda3 /mnt<enter>`                                                   |
 | configure sshd to allow root login     | `sed -i -E 's,#?(PermitRootLogin\s+).+,\1yes,' /mnt/etc/ssh/sshd_config<enter>` |
 | reboot to the installed system         | `reboot<enter>`                                                                 |
