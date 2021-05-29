@@ -67,8 +67,15 @@ EOF
 #    (somewhat unsafe as it has to fill the entire disk, which might trigger
 #    a disk (near) full alarm; slower; slightly better compression).
 apk add util-linux
-if [ "$(lsblk -no DISC-GRAN $(findmnt -no SOURCE /) | awk '{print $1}')" != '0B' ]; then
-    fstrim -v /
+root_dev="$(findmnt -no SOURCE /)"
+if [ "$(lsblk -no DISC-GRAN $root_dev | awk '{print $1}')" != '0B' ]; then
+    while true; do
+        output="$(fstrim -v /)"
+        sync && sync && sync && blockdev --flushbufs $root_dev && sleep 15
+        if [ "$output" == '/: 0 B (0 bytes) trimmed' ]; then
+            break
+        fi
+    done
 else
     dd if=/dev/zero of=/EMPTY bs=1M || true && sync && rm -f /EMPTY && sync
 fi
