@@ -69,6 +69,16 @@ set show-all-if-ambiguous on
 set completion-ignore-case on
 EOF
 
+# setup the shell profile.
+cat >/etc/profile.d/login.sh <<'EOF'
+export EDITOR=vim
+export PAGER=less
+alias l='ls -lF --color'
+alias ll='l -a'
+alias h='history 25'
+alias j='jobs -l'
+EOF
+
 # zero the free disk space -- for better compression of the box file.
 # NB prefer discard/trim (safer; faster) over creating a big zero filled file
 #    (somewhat unsafe as it has to fill the entire disk, which might trigger
