@@ -7,6 +7,10 @@ set -x
 # upgrade all packages.
 apk upgrade -U --available
 
+# setup the console keymap (keyboard layout).
+# NB this is also in the answers file (but with the us keymap).
+setup-keymap pt pt
+
 # add the vagrant user and let it use root permissions without sudo asking for a password.
 apk add sudo
 adduser -D vagrant
