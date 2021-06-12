@@ -32,7 +32,7 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
 # install the VirtualBox Guest Additions.
 echo http://mirrors.dotsrc.org/alpine/v3.13/community >>/etc/apk/repositories
-apk add -U virtualbox-guest-additions virtualbox-guest-modules-lts
+apk add -U virtualbox-guest-additions
 rc-update add virtualbox-guest-additions
 echo vboxsf >>/etc/modules
 modinfo vboxguest
