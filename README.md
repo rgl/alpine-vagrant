@@ -86,7 +86,8 @@ The following table describes the steps used to install Alpine Linux.
 | wait for the services to start         | `<wait30s>`                                                                     |
 | confirm that we want to erase sda      | `y<enter>`                                                                      |
 | wait for the installation to finish    | `<wait4m>`                                                                      |
-| mount the root partition               | `mount /dev/sda3 /mnt<enter>`                                                   |
+| force the firmware to boot from disk   | `apk add efibootmgr<enter><wait15s>efibootmgr -o 0002<enter><wait>`             |
+| mount the root partition               | `mount /dev/sda2 /mnt<enter>`                                                   |
 | configure sshd to allow root login     | `sed -i -E 's,#?(PermitRootLogin\s+).+,\1yes,' /mnt/etc/ssh/sshd_config<enter>` |
 | reboot to the installed system         | `reboot<enter>`                                                                 |
 

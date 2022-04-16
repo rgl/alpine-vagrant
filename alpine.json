@@ -43,6 +43,44 @@
       "shutdown_command": "poweroff"
     },
     {
+      "name": "alpine-{{user `version`}}-uefi-amd64-libvirt",
+      "type": "qemu",
+      "accelerator": "kvm",
+      "qemuargs": [
+        ["-bios", "/usr/share/ovmf/OVMF.fd"],
+        ["-m", "2048"],
+        ["-smp", "2"]
+      ],
+      "headless": true,
+      "http_directory": ".",
+      "format": "qcow2",
+      "disk_size": "{{user `disk_size`}}",
+      "disk_interface": "virtio-scsi",
+      "disk_discard": "unmap",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+        "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
+        "setup-alpine -f answers<enter><wait5>",
+        "vagrant<enter>",
+        "vagrant<enter>",
+        "<wait30s>",
+        "y<enter>",
+        "<wait4m>",
+        "apk add efibootmgr<enter><wait15s>efibootmgr -o 0002<enter><wait>",
+        "mount /dev/sda2 /mnt<enter>",
+        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
+        "reboot<enter>"
+      ],
+      "shutdown_command": "poweroff"
+    },
+    {
       "name": "alpine-{{user `version`}}-amd64-virtualbox",
       "type": "virtualbox-iso",
       "guest_os_type": "Linux26_64",
@@ -95,7 +133,19 @@
     {
       "type": "vagrant",
       "output": "{{.BuildName}}.box",
-      "vagrantfile_template": "Vagrantfile.template"
+      "vagrantfile_template": "Vagrantfile.template",
+      "only": [
+        "alpine-{{user `version`}}-amd64-libvirt",
+        "alpine-{{user `version`}}-amd64-virtualbox"
+      ]
+    },
+    {
+      "type": "vagrant",
+      "output": "{{.BuildName}}.box",
+      "vagrantfile_template": "Vagrantfile-uefi.template",
+      "only": [
+        "alpine-{{user `version`}}-uefi-amd64-libvirt"
+      ]
     }
   ]
 }
