@@ -15,7 +15,7 @@ alpine-${VERSION}-amd64-libvirt.box: answers provision.sh alpine.json Vagrantfil
 	@echo to add to local vagrant install do:
 	@echo vagrant box add -f alpine-${VERSION}-amd64 $@
 
-alpine-${VERSION}-uefi-amd64-libvirt.box: answers provision.sh alpine.json Vagrantfile.template
+alpine-${VERSION}-uefi-amd64-libvirt.box: answers provision.sh alpine.json Vagrantfile-uefi.template
 	rm -f $@
 	PACKER_KEY_INTERVAL=10ms packer build -only=alpine-${VERSION}-uefi-amd64-libvirt -on-error=abort alpine.json
 	@echo BOX successfully built!
