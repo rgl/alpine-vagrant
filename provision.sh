@@ -1,8 +1,5 @@
 #!/bin/ash
-# abort this script when a command fails or a unset variable is used.
-set -eu
-# echo all the executed commands.
-set -x
+set -euxo pipefail
 
 # upgrade all packages.
 apk upgrade -U --available

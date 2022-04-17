@@ -73,19 +73,11 @@ vagrant destroy -f
 
 The following table describes the steps used to install Alpine Linux.
 
-**NB** This Packer `boot_command` method of installation is quite brittle, if you are having trouble installing, try increasing the install wait timeout, or changing the [Alpine mirror](https://wiki.alpinelinux.org/wiki/Alpine_Linux:Mirrors) in the `answers` file to one near you.
-
-| step                                   | boot_command                                                                    |
-|---------------------------------------:|---------------------------------------------------------------------------------|
-| login as root                          | `root<enter>`                                                                   |
-| set the root password                  | `echo 'root:vagrant' | chpasswd<enter>`                                         |
-| bring up the network                   | `ifconfig eth0 up && udhcpc -i eth0<enter><wait5>`                              |
-| download the setup answers             | `wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>`                 |
-| install alpine to local disk           | `ERASE_DISKS='/dev/sda' setup-alpine -e -f $PWD/answers<enter><wait4m>`         |
-| force the firmware to boot from disk   | `apk add efibootmgr<enter><wait15s>efibootmgr -o 0002<enter><wait>`             |
-| mount the root partition               | `mount /dev/sda2 /mnt<enter>`                                                   |
-| configure sshd to allow root login     | `sed -i -E 's,#?(PermitRootLogin\s+).+,\1yes,' /mnt/etc/ssh/sshd_config<enter>` |
-| reboot to the installed system         | `reboot<enter>`                                                                 |
+| step                 | boot_command                                                          |
+|---------------------:|-----------------------------------------------------------------------|
+| login as root        | `root<enter>`                                                         |
+| bring up the network | `ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>`                   |
+| install              | `wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh \| ash<enter>` |
 
 # Reference
 

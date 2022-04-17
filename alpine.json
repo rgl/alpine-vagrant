@@ -28,13 +28,8 @@
       "boot_wait": "30s",
       "boot_command": [
         "root<enter>",
-        "echo 'root:vagrant' | chpasswd<enter>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-        "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
-        "ERASE_DISKS='/dev/sda' setup-alpine -e -f answers<enter><wait4m>",
-        "mount /dev/sda2 /mnt<enter>",
-        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
-        "reboot<enter>"
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
+        "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
       "shutdown_command": "poweroff"
     },
@@ -61,14 +56,8 @@
       "boot_wait": "30s",
       "boot_command": [
         "root<enter>",
-        "echo 'root:vagrant' | chpasswd<enter>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-        "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
-        "ERASE_DISKS='/dev/sda' setup-alpine -e -f answers<enter><wait4m>",
-        "apk add efibootmgr<enter><wait15s>efibootmgr -o 0002<enter><wait>",
-        "mount /dev/sda2 /mnt<enter>",
-        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
-        "reboot<enter>"
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
+        "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
       "shutdown_command": "poweroff"
     },
@@ -99,13 +88,8 @@
       "boot_wait": "30s",
       "boot_command": [
         "root<enter>",
-        "echo 'root:vagrant' | chpasswd<enter>",
-        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
-        "wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>",
-        "ERASE_DISKS='/dev/sda' setup-alpine -e -f answers<enter><wait4m>",
-        "mount /dev/sda2 /mnt<enter>",
-        "sed -i -E 's,#?(PermitRootLogin\\s+).+,\\1yes,' /mnt/etc/ssh/sshd_config<enter>",
-        "reboot<enter>"
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
+        "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
       "shutdown_command": "poweroff"
     }
