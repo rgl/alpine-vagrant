@@ -78,14 +78,10 @@ The following table describes the steps used to install Alpine Linux.
 | step                                   | boot_command                                                                    |
 |---------------------------------------:|---------------------------------------------------------------------------------|
 | login as root                          | `root<enter>`                                                                   |
+| set the root password                  | `echo 'root:vagrant' | chpasswd<enter>`                                         |
 | bring up the network                   | `ifconfig eth0 up && udhcpc -i eth0<enter><wait5>`                              |
 | download the setup answers             | `wget -q http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait>`                 |
-| run the setup                          | `setup-alpine -f $PWD/answers<enter><wait5>`                                    |
-| type the root password                 | `vagrant<enter>`                                                                |
-| re-type the root password              | `vagrant<enter>`                                                                |
-| wait for the services to start         | `<wait30s>`                                                                     |
-| confirm that we want to erase sda      | `y<enter>`                                                                      |
-| wait for the installation to finish    | `<wait4m>`                                                                      |
+| install alpine to local disk           | `ERASE_DISKS='/dev/sda' setup-alpine -e -f $PWD/answers<enter><wait4m>`         |
 | force the firmware to boot from disk   | `apk add efibootmgr<enter><wait15s>efibootmgr -o 0002<enter><wait>`             |
 | mount the root partition               | `mount /dev/sda2 /mnt<enter>`                                                   |
 | configure sshd to allow root login     | `sed -i -E 's,#?(PermitRootLogin\s+).+,\1yes,' /mnt/etc/ssh/sshd_config<enter>` |
