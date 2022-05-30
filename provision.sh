@@ -8,12 +8,12 @@ apk upgrade -U --available
 # NB this is also in the answers file (but with the us keymap).
 setup-keymap pt pt
 
-# add the vagrant user and let it use root permissions without sudo asking for a password.
-apk add sudo
+# add the vagrant user and let it use root permissions without doas/sudo asking for a password.
+apk add doas-sudo-shim
 adduser -D vagrant
 echo 'vagrant:vagrant' | chpasswd
 adduser vagrant wheel
-echo '%wheel ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/wheel
+echo 'permit nopass :wheel' >/etc/doas.d/wheel.conf
 
 # add support for validating https certificates.
 apk add ca-certificates openssl
@@ -28,14 +28,14 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 # install the Guest Additions.
 if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
 # install the VirtualBox Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.15/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.16/community >>/etc/apk/repositories
 apk add -U virtualbox-guest-additions
 rc-update add virtualbox-guest-additions
 echo vboxsf >>/etc/modules
 modinfo vboxguest
 else
 # install the qemu-kvm Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.15/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.16/community >>/etc/apk/repositories
 apk add -U qemu-guest-agent
 rc-update add qemu-guest-agent
 # configure the GA_PATH, as, for some reason, its at /dev/vport0p1 instead of
