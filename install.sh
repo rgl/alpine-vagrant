@@ -25,6 +25,30 @@ DISKOPTS="-s 0 -m sys $boot_device"
 EOF
 ERASE_DISKS="$boot_device" setup-alpine -e -f $PWD/answers
 
+# reset the uefi boot options.
+if [ "$firmware" == 'uefi' ]; then
+  apk add efibootmgr
+  # show the boot options.
+  efibootmgr -v
+  # remove all the boot options.
+  # NB if we do not set any boot option, the firmware will recover/discover them
+  #    at the next boot. unfortunately, in my test HP EliteDesk 800 35W G2
+  #    Desktop Mini, this requires an extra reboot, which messes with the
+  #    ethernet speed by switching it to 10 Mbps, so we also create the boot
+  #    option.
+  efibootmgr \
+    | grep -E  '^Boot([0-9A-F]{4})' \
+    | sed -E 's,^Boot([0-9A-F]{4}).*,\1,g' \
+    | xargs -I% efibootmgr --quiet --delete-bootnum --bootnum %
+  # create the boot option.
+  efibootmgr \
+    -c \
+    -d "$boot_device" \
+    -p 1 \
+    -L Alpine \
+    -l '\EFI\alpine\grubx64.efi'
+fi
+
 # configure the vagrant user.
 mount "${boot_device}2" /mnt
 chroot /mnt ash <<'EOF'
@@ -37,12 +61,6 @@ echo 'permit nopass :wheel' >/etc/doas.d/wheel.conf
 # set the vagrant user password.
 echo 'vagrant:vagrant' | chpasswd
 EOF
-
-# force the firmware to boot from disk.
-if [ "$firmware" == 'uefi' ]; then
-    apk add efibootmgr
-    efibootmgr -o 0002
-fi
 
 # lock the root account.
 chroot /mnt passwd -l root
