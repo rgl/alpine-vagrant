@@ -22,7 +22,7 @@
       "disk_discard": "unmap",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "ssh_username": "root",
+      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",
       "boot_wait": "30s",
@@ -31,7 +31,7 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
         "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
-      "shutdown_command": "poweroff"
+      "shutdown_command": "doas poweroff"
     },
     {
       "name": "alpine-{{user `version`}}-uefi-amd64-libvirt",
@@ -50,7 +50,7 @@
       "disk_discard": "unmap",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "ssh_username": "root",
+      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",
       "boot_wait": "30s",
@@ -59,7 +59,7 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
         "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
-      "shutdown_command": "poweroff"
+      "shutdown_command": "doas poweroff"
     },
     {
       "name": "alpine-{{user `version`}}-amd64-virtualbox",
@@ -82,7 +82,7 @@
       "hard_drive_discard": true,
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "ssh_username": "root",
+      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",
       "boot_wait": "30s",
@@ -91,13 +91,13 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
         "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
-      "shutdown_command": "poweroff"
+      "shutdown_command": "doas poweroff"
     }
   ],
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "sh {{.Path}}",
+      "execute_command": "doas sh {{.Path}}",
       "scripts": ["provision.sh"]
     }
   ],

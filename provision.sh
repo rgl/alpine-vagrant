@@ -8,12 +8,8 @@ apk upgrade -U --available
 # NB this is also in the answers file (but with the us keymap).
 setup-keymap pt pt
 
-# add the vagrant user and let it use root permissions without doas/sudo asking for a password.
+# install the doas sudo shim.
 apk add doas-sudo-shim
-adduser -D vagrant
-echo 'vagrant:vagrant' | chpasswd
-adduser vagrant wheel
-echo 'permit nopass :wheel' >/etc/doas.d/wheel.conf
 
 # add support for validating https certificates.
 apk add ca-certificates openssl
