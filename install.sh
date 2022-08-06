@@ -44,5 +44,8 @@ if [ "$firmware" == 'uefi' ]; then
     efibootmgr -o 0002
 fi
 
+# lock the root account.
+chroot /mnt passwd -l root
+
 # reboot to the installed system.
 reboot
