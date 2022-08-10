@@ -27,19 +27,24 @@ ERASE_DISKS="$boot_device" setup-alpine -e -f $PWD/answers
 
 # reset the uefi boot options.
 if [ "$firmware" == 'uefi' ]; then
+  # install the efi boot manager.
   apk add efibootmgr
   # show the boot options.
   efibootmgr -v
   # remove all the boot options.
-  # NB if we do not set any boot option, the firmware will recover/discover them
-  #    at the next boot. unfortunately, in my test HP EliteDesk 800 35W G2
-  #    Desktop Mini, this requires an extra reboot, which messes with the
-  #    ethernet speed by switching it to 10 Mbps, so we also create the boot
-  #    option.
   efibootmgr \
     | sed -nE 's,^Boot([0-9A-F]{4}).*,\1,gp' \
     | xargs -I% efibootmgr --quiet --delete-bootnum --bootnum %
   # create the boot option.
+  # NB if we do not set any boot option, the firmware will recover/discover them
+  #    at the next boot. the firmware will find the shimx64.efi. when the shim
+  #    runs for the first time in a system with an enabled TPM, it will do an
+  #    extra reboot. when we are connected to the machine using AMT Remote
+  #    Desktop, that extra reboot messes with the ethernet speed by switching it
+  #    to a crawling 10 Mbps. to prevent all this we have to create this boot
+  #    option.
+  #    see https://github.com/coreos/fedora-coreos-tracker/issues/563
+  #    see https://github.com/rhboot/shim
   efibootmgr \
     -c \
     -d "$boot_device" \
