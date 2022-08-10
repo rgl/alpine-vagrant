@@ -37,8 +37,7 @@ if [ "$firmware" == 'uefi' ]; then
   #    ethernet speed by switching it to 10 Mbps, so we also create the boot
   #    option.
   efibootmgr \
-    | grep -E  '^Boot([0-9A-F]{4})' \
-    | sed -E 's,^Boot([0-9A-F]{4}).*,\1,g' \
+    | sed -nE 's,^Boot([0-9A-F]{4}).*,\1,gp' \
     | xargs -I% efibootmgr --quiet --delete-bootnum --bootnum %
   # create the boot option.
   efibootmgr \
