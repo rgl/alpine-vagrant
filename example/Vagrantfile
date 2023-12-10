@@ -1,6 +1,6 @@
 Vagrant.configure(2) do |config|
-  config.vm.box = 'alpine-3.18-amd64'
-  #config.vm.box = 'alpine-3.18-uefi-amd64'
+  config.vm.box = 'alpine-3.19-amd64'
+  #config.vm.box = 'alpine-3.19-uefi-amd64'
 
   config.vm.hostname = 'example.test'
 
@@ -37,17 +37,17 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', privileged: false, inline: '''
     set -euxo pipefail
     abuild-keygen -i -a -n
-    git clone --branch=3.18-stable --single-branch --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
+    git clone --branch=3.19-stable --single-branch --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
     ~/aports/scripts/mkimage.sh --help || true # and check the available profiles.
     ~/aports/scripts/mkimage.sh \
-      --repository http://mirrors.dotsrc.org/alpine/v3.18/main \
+      --repository http://mirrors.dotsrc.org/alpine/v3.19/main \
       --arch x86_64 \
       --profile netboot \
-      --tag v3.18 \
+      --tag v3.19 \
       --outdir ~/images
     # show the created files, and the contents of the initramfs and rootfs.
     find ~/images -type f | xargs ls -laF
-    zcat ~/images/netboot-v3.18/initramfs-lts | cpio -vt
-    unsquashfs -ll ~/images/netboot-v3.18/modloop-lts
+    zcat ~/images/netboot-v3.19/initramfs-lts | cpio -vt
+    unsquashfs -ll ~/images/netboot-v3.19/modloop-lts
     '''
 end

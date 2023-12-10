@@ -24,14 +24,14 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 # install the Guest Additions.
 if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
 # install the VirtualBox Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.18/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.19/community >>/etc/apk/repositories
 apk add -U virtualbox-guest-additions
 rc-update add virtualbox-guest-additions
 echo vboxsf >>/etc/modules
 modinfo vboxguest
 else
 # install the qemu-kvm Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.18/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.19/community >>/etc/apk/repositories
 apk add -U qemu-guest-agent
 rc-update add qemu-guest-agent
 # configure the GA_PATH, as, for some reason, its at /dev/vport0p1 instead of
@@ -77,12 +77,14 @@ EOF
 #    (somewhat unsafe as it has to fill the entire disk, which might trigger
 #    a disk (near) full alarm; slower; slightly better compression).
 apk add util-linux
-root_dev="$(findmnt -no SOURCE /)"
-if [ "$(lsblk -no DISC-GRAN $root_dev | awk '{print $1}')" != '0B' ]; then
+if [ "$(lsblk -no DISC-GRAN $(findmnt -no SOURCE /) | awk '{print $1}')" != '0B' ]; then
     while true; do
         output="$(fstrim -v /)"
-        sync && sync && sync && blockdev --flushbufs $root_dev && sleep 15
-        if [ "$output" == '/: 0 B (0 bytes) trimmed' ]; then
+        sync && sync && sleep 15
+        bytes_trimmed="$(echo "$output" | awk '{match($0, /\([0-9]+ bytes\)/); if(RSTART) print substr($0, RSTART+1, RLENGTH-8)}')"
+        # NB if this never reaches zero, it might be because there is not
+        #    enough free space for completing the trim.
+        if [ "$bytes_trimmed" -lt "$((200*1024*1024))" ]; then # < 200 MiB is good enough.
             break
         fi
     done
