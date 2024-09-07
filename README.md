@@ -1,11 +1,11 @@
 This builds an up-to-date Vagrant Alpine Linux Base Box.
 
-Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.19.
+Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.20.
 
 
 # Usage
 
-Install [Packer (1.7+)](https://www.packer.io/), and [Vagrant (2.2.16+)](https://www.vagrantup.com/).
+Install [Packer (1.11+)](https://www.packer.io/) and [Vagrant (2.4.1+)](https://www.vagrantup.com/).
 
 If you are on a Debian/Ubuntu host, you should also install and configure the NFS server. E.g.:
 
@@ -38,7 +38,11 @@ apt-get install -y rng-tools
 systool -m kvm_intel -v
 ```
 
-Type `make build-libvirt` and follow the instructions.
+Build the box, and follow the printed instructions:
+
+```bash
+make build-libvirt
+```
 
 Try the example guest:
 
