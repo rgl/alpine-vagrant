@@ -5,7 +5,7 @@ Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.19.
 
 # Usage
 
-Install [Packer (1.7+)](https://www.packer.io/), [Vagrant (2.2.16+)](https://www.vagrantup.com/) and [VirtualBox (6.1+)](https://www.virtualbox.org/).
+Install [Packer (1.7+)](https://www.packer.io/), and [Vagrant (2.2.16+)](https://www.vagrantup.com/).
 
 If you are on a Debian/Ubuntu host, you should also install and configure the NFS server. E.g.:
 
@@ -47,23 +47,6 @@ cd example
 apt-get install -y virt-manager libvirt-dev
 vagrant plugin install vagrant-libvirt
 vagrant up --provider=libvirt
-vagrant ssh
-exit
-vagrant destroy -f
-```
-
-
-## VirtualBox usage
-
-Install [VirtualBox](https://www.virtualbox.org/).
-
-Type `make build-virtualbox` and follow the instructions.
-
-Try the example guest:
-
-```bash
-cd example
-vagrant up --provider=virtualbox
 vagrant ssh
 exit
 vagrant destroy -f

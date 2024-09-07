@@ -21,15 +21,6 @@ wget -qO /home/vagrant/.ssh/authorized_keys https://raw.githubusercontent.com/mi
 chmod 600 /home/vagrant/.ssh/authorized_keys
 chown -R vagrant:vagrant /home/vagrant/.ssh
 
-# install the Guest Additions.
-if [ "$(cat /sys/devices/virtual/dmi/id/board_name)" == 'VirtualBox' ]; then
-# install the VirtualBox Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.19/community >>/etc/apk/repositories
-apk add -U virtualbox-guest-additions
-rc-update add virtualbox-guest-additions
-echo vboxsf >>/etc/modules
-modinfo vboxguest
-else
 # install the qemu-kvm Guest Additions.
 echo http://mirrors.dotsrc.org/alpine/v3.19/community >>/etc/apk/repositories
 apk add -U qemu-guest-agent
@@ -40,7 +31,6 @@ rc-update add qemu-guest-agent
 #       virsh qemu-agent-command $(cat .vagrant/machines/default/libvirt/id) '{"execute":"guest-ping"}' | jq
 #       virsh qemu-agent-command $(cat .vagrant/machines/default/libvirt/id) '{"execute":"guest-info"}' | jq
 sed -i -E 's,#?(GA_PATH=).+,\1"/dev/vport0p1",' /etc/conf.d/qemu-guest-agent
-fi
 
 # install the nfs client to support nfs synced folders in vagrant.
 apk add nfs-utils
