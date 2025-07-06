@@ -1,9 +1,9 @@
 {
   "variables": {
     "disk_size": "20480",
-    "version": "3.20",
-    "iso_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.3-x86_64.iso",
-    "iso_checksum": "sha256:c66fc1e0470781f8ecbab8eb9cc8d906066171a5e0c6c1ab20aedc7061836d27"
+    "version": "3.22",
+    "iso_url": "https://dl-cdn.alpinelinux.org/alpine/v3.22/releases/x86_64/alpine-standard-3.22.0-x86_64.iso",
+    "iso_checksum": "sha256:08283b76f95c0828f51c03ade5690eb4a4bda8e1c86f57567ae8cedaf4f04aae"
   },
   "builders": [
     {

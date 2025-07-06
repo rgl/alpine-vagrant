@@ -17,7 +17,7 @@ iface eth0 inet dhcp
 DNSOPTS=""
 TIMEZONEOPTS="-z UTC"
 PROXYOPTS="none"
-APKREPOSOPTS="http://mirrors.dotsrc.org/alpine/v3.20/main"
+APKREPOSOPTS="http://mirrors.dotsrc.org/alpine/v3.22/main"
 USEROPTS="-a vagrant"
 SSHDOPTS="-c openssh"
 NTPOPTS="-c chrony"

@@ -22,7 +22,7 @@ chmod 600 /home/vagrant/.ssh/authorized_keys
 chown -R vagrant:vagrant /home/vagrant/.ssh
 
 # install the qemu-kvm Guest Additions.
-echo http://mirrors.dotsrc.org/alpine/v3.20/community >>/etc/apk/repositories
+echo http://mirrors.dotsrc.org/alpine/v3.22/community >>/etc/apk/repositories
 apk add -U qemu-guest-agent
 rc-update add qemu-guest-agent
 # configure the GA_PATH, as, for some reason, its at /dev/vport0p1 instead of
