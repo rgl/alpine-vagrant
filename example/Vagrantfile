@@ -1,12 +1,12 @@
 Vagrant.configure(2) do |config|
-  config.vm.box = 'alpine-3.22-amd64'
-  #config.vm.box = 'alpine-3.22-uefi-amd64'
+  config.vm.box = 'alpine-3.23-amd64'
+  #config.vm.box = 'alpine-3.23-uefi-amd64'
 
   config.vm.hostname = 'example.test'
 
   config.vm.provider 'libvirt' do |lv, config|
     lv.default_prefix = File.basename(File.dirname(File.dirname(__FILE__)))
-    lv.memory = 4*1024
+    lv.memory = 6*1024
     lv.cpus = 4
     lv.cpu_mode = 'host-passthrough'
     lv.nested = false
@@ -26,22 +26,22 @@ Vagrant.configure(2) do |config|
     apk update
     apk add alpine-sdk build-base apk-tools alpine-conf busybox fakeroot syslinux xorriso squashfs-tools
     apk add mtools dosfstools grub-efi
-    mount -o remount,size=3G /tmp
+    mount -o remount,size=5G /tmp
     '''
   config.vm.provision 'shell', privileged: false, inline: '''
     set -euxo pipefail
     abuild-keygen -i -a -n
-    git clone --branch=3.22-stable --single-branch --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
+    git clone --branch=3.23-stable --single-branch --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
     ~/aports/scripts/mkimage.sh --help || true # and check the available profiles.
     ~/aports/scripts/mkimage.sh \
-      --repository http://mirrors.dotsrc.org/alpine/v3.22/main \
+      --repository http://mirrors.dotsrc.org/alpine/v3.23/main \
       --arch x86_64 \
       --profile netboot \
-      --tag v3.22 \
+      --tag v3.23 \
       --outdir ~/images
     # show the created files, and the contents of the initramfs and rootfs.
     find ~/images -type f | xargs ls -laF
-    zcat ~/images/netboot-v3.22/initramfs-lts | cpio -vt
-    unsquashfs -ll ~/images/netboot-v3.22/modloop-lts
+    zcat ~/images/netboot-v3.23/initramfs-lts | cpio -vt
+    unsquashfs -ll ~/images/netboot-v3.23/modloop-lts
     '''
 end
