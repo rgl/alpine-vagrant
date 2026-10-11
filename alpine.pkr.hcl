@@ -37,36 +37,6 @@ variable "disk_size" {
   default = 16 * 1024
 }
 
-source "qemu" "alpine-amd64" {
-  accelerator  = "kvm"
-  machine_type = "q35"
-  cpus         = 2
-  memory       = 2 * 1024
-  qemuargs = [
-    ["-cpu", "host"]
-  ]
-  headless       = true
-  net_device     = "virtio-net"
-  http_directory = "."
-  format         = "qcow2"
-  disk_size      = var.disk_size
-  disk_interface = "virtio-scsi"
-  disk_cache     = "unsafe"
-  disk_discard   = "unmap"
-  iso_url        = var.iso_url
-  iso_checksum   = var.iso_checksum
-  ssh_username   = "vagrant"
-  ssh_password   = "vagrant"
-  ssh_timeout    = "60m"
-  boot_wait      = "30s"
-  boot_command = [
-    "root<enter>",
-    "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
-    "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
-  ]
-  shutdown_command = "doas poweroff"
-}
-
 source "qemu" "alpine-uefi-amd64" {
   accelerator       = "kvm"
   machine_type      = "q35"
@@ -102,7 +72,6 @@ source "qemu" "alpine-uefi-amd64" {
 
 build {
   sources = [
-    "source.qemu.alpine-amd64",
     "source.qemu.alpine-uefi-amd64"
   ]
 
@@ -112,17 +81,6 @@ build {
   }
 
   post-processor "vagrant" {
-    only = [
-      "qemu.alpine-amd64",
-    ]
-    output               = var.vagrant_box
-    vagrantfile_template = "Vagrantfile.template"
-  }
-
-  post-processor "vagrant" {
-    only = [
-      "qemu.alpine-uefi-amd64",
-    ]
     output               = var.vagrant_box
     vagrantfile_template = "Vagrantfile-uefi.template"
   }
