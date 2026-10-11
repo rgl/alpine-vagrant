@@ -5,7 +5,7 @@ Currently this targets [Alpine Linux](https://alpinelinux.org/) 3.24.
 
 # Usage
 
-Install [Packer (1.14+)](https://www.packer.io/) and [Vagrant (2.4+)](https://www.vagrantup.com/).
+Install [Packer (1.16+)](https://www.packer.io/) and [Vagrant (2.4+)](https://www.vagrantup.com/).
 
 If you are on a Debian/Ubuntu host, you should also install and configure the NFS server. E.g.:
 
@@ -52,6 +52,7 @@ apt-get install -y virt-manager libvirt-dev
 vagrant plugin install vagrant-libvirt
 vagrant up --provider=libvirt
 vagrant ssh
+ll images/netboot/
 exit
 vagrant destroy -f
 ```
