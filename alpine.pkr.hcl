@@ -2,7 +2,7 @@ packer {
   required_plugins {
     # see https://github.com/hashicorp/packer-plugin-qemu
     qemu = {
-      version = "1.1.7"
+      version = "1.1.8"
       source  = "github.com/hashicorp/qemu"
     }
     # see https://github.com/hashicorp/packer-plugin-vagrant
@@ -24,12 +24,12 @@ variable "version" {
 
 variable "iso_url" {
   type    = string
-  default = "https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.2-x86_64.iso"
+  default = "https://dl-cdn.alpinelinux.org/alpine/v3.24/releases/x86_64/alpine-standard-3.24.4-x86_64.iso"
 }
 
 variable "iso_checksum" {
   type    = string
-  default = "sha256:20c026e3a788bfb75fc8b50a54bcc12aee85e3c75909740bba6a6f4563d63296"
+  default = "sha256:92e3e4e4c6b8e265a889278de2a633c0f1456ca52820952666ecb395c3d23582"
 }
 
 variable "disk_size" {
